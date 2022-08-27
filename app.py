@@ -9,6 +9,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 from calendar import timegm
 from time import gmtime
+from predictions import load_and_predict
 
 load_dotenv()
 
@@ -43,8 +44,8 @@ def upload_and_predict():
     if file_to_upload and allowed_file(file_to_upload.filename):
         upload_result = cloudinary.uploader.upload(file_to_upload, public_id=f'uel_cv/picture{timestamp}')
         url = upload_result['secure_url']
-        # prediction = load_and_predict(url)
-        return jsonify({"message": "uploaded successfully", "url": url, "prediction": None})
+        prediction = load_and_predict(url)
+        return jsonify({"message": "uploaded successfully", "url": url, "prediction": prediction})
     else:
         return jsonify({"error": "File has invalid type or does not exist"}), 400
 
