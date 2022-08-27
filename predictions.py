@@ -4,18 +4,11 @@ from PIL import Image
 
 import numpy as np
 from keras.models import load_model
-from keras_preprocessing.image import load_img, img_to_array
+from keras_preprocessing.image import img_to_array
 
 translate = ["dog", "horse", "elephant", "butterfly", "chicken", "cat", "cow", "sheep", "spider", "squirrel"]
 
 model = load_model('../trained_models/animals_vgc16p260822.hdf5')
-
-
-# def load_image_from_url(url):
-#     res = request.urlopen(url).read()
-#     img = Image.open(BytesIO(res)).resize((224, 224))
-#
-#     return img_to_array(img)
 
 
 def load_and_predict(url):
@@ -25,4 +18,3 @@ def load_and_predict(url):
     test_img = np.expand_dims(test_img, axis=0)
     result = model.predict(test_img)
     return translate[np.argmax(result[0])]
-
